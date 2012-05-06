@@ -5,8 +5,9 @@ ENV["RAILS_ENV"] ||= 'test'
 LOGFILE_PATH = File.expand_path('../../log/cucumber.log', __FILE__)
 
 require 'ruby-debug'
-require File.expand_path('../../features/support/env', __FILE__)
 require 'redis'
+require 'cucumber'
+require File.expand_path('../../features/support/env', __FILE__)
 
 def run_scenario scenario
   args = ['--name', %{^#{scenario}$}]
@@ -18,7 +19,7 @@ def run_scenario scenario
     STDERR.reopen(LOGFILE_PATH)
 
     runtime = ::Cucumber::Runtime.new
-    main = ::Cucumber::Cli::Main.new(args, $stdout, $sterr)
+    main = ::Cucumber::Cli::Main.new(args)
     main.execute!(runtime)
     if runtime.results.scenarios.size == 0
       warn "unable to find scenario"
