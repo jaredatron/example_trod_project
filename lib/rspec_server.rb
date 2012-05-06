@@ -6,6 +6,7 @@ LOGFILE_PATH = File.expand_path('../../log/rspec.log', __FILE__)
 
 require 'ruby-debug'
 require 'rspec'
+require 'rspec/core'
 require 'redis'
 
 
@@ -20,13 +21,10 @@ def run_spec spec
 
   pid = fork{
     ARGV.replace(args)
-    $stdout = $sterr = File.open(LOGFILE_PATH, 'w')
-    require 'rspec/core'
+    STDOUT.reopen(LOGFILE_PATH)
+    STDERR.reopen(LOGFILE_PATH)
     RSpec::Core::Runner.autorun
-    # logfile = File.open(LOGFILE_PATH, 'w'){|log|
-    #   runner = ::RSpec::Core::CommandLine.new(args.clone)
-    #   runner.run(log,log)
-    # }
+    # TODO find test and check its name and result
   }
 
   Process.wait(pid)
