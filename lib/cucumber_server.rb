@@ -5,7 +5,6 @@ ENV["RAILS_ENV"] ||= 'test'
 LOGFILE_PATH = File.expand_path('../../log/cucumber.log', __FILE__)
 
 require 'ruby-debug'
-require 'cucumber'
 require File.expand_path('../../features/support/env', __FILE__)
 require 'redis'
 
