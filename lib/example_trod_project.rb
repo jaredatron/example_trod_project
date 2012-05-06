@@ -1,4 +1,12 @@
+puts "loading application"
+
 require 'logger'
+
+class Fixnum
+  def percent_of_the_time
+    yield if rand(100) <= self
+  end
+end
 
 module ExampleTrodProject
 
@@ -24,4 +32,9 @@ module ExampleTrodProject
 
 end
 
-sleep 5 # simulate a slow app starting
+# simulate a slow app starting
+# 5.times{
+#   print '.'
+#   sleep 1
+# }
+# print "\n"

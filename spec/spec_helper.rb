@@ -1,7 +1,5 @@
-require File.expand_path('../lib/example_trod_project', __FILE__)
+puts "loading spec helper"
+# RSpec::Core::Runner.disable_autorun!
 
-# class Fixnum
-#   def percent_of_the_time
-#     yield if rand(100) <= self
-#   end
-# end
+require File.expand_path('../../lib/example_trod_project', __FILE__)
+
