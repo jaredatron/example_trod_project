@@ -1,10 +1,12 @@
 #!/usr/bin/env ruby
 
-require File.expand_path('../../lib/example_trod_project', __FILE__)
+ENV["RAILS_ENV"] ||= 'test'
+
 LOGFILE_PATH = File.expand_path('../../log/cucumber.log', __FILE__)
 
 require 'ruby-debug'
 require 'cucumber'
+require File.expand_path('../../features/support/env', __FILE__)
 require 'redis'
 
 def run_scenario scenario

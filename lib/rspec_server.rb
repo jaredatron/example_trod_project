@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+ENV["RAILS_ENV"] ||= 'test'
+
 require File.expand_path('../../lib/example_trod_project', __FILE__)
 require File.expand_path('../../spec/spec_helper', __FILE__)
 LOGFILE_PATH = File.expand_path('../../log/rspec.log', __FILE__)
