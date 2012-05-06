@@ -1,3 +1,8 @@
+PATH
+  remote: /Volumes/Chest/deadlyicon/Work/trod
+  specs:
+    trod (0.0.1)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -39,3 +44,4 @@ DEPENDENCIES
   debugger
   redis
   rspec
+  trod!
