@@ -9,7 +9,7 @@ group :development, :test do
   # gem 'ruby-debug-base19x', '~> 0.11.30.pre4', :platform => :ruby_19
   # gem "ruby-debug19", :platform => :ruby_19
   gem "debugger", :require => nil
-  gem "trod", :path => '/Volumes/Chest/deadlyicon/Work/trod'
+  gem "trod", :path => '/Users/deadlyicon/Work/change.org/trod'
 end
 
 group :test do
