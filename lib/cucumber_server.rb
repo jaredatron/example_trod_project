@@ -4,19 +4,26 @@ ENV["RAILS_ENV"] ||= 'test'
 
 LOGFILE_PATH = File.expand_path('../../log/cucumber.log', __FILE__)
 
+require 'drb'
 require 'ruby-debug'
-require 'redis'
 require 'cucumber'
 require File.expand_path('../../features/support/env', __FILE__)
 
-def run_scenario scenario
+CUCUMBER_SERVER = Object.new
+
+def CUCUMBER_SERVER.run_scenario scenario
   args = ['--name', %{^#{scenario}$}]
   # args.unshift *%w{--out log/cucumber.log}
   puts "running: #{scenario}:"
+  p args
+
+  log_dir = Pathname(File.expand_path('log'))
+  log_dir.mkdir unless log_dir.exist?
+  cucumber_log_path = log_dir.join('cucumber.log')
 
   pid = fork{
-    STDOUT.reopen(LOGFILE_PATH)
-    STDERR.reopen(LOGFILE_PATH)
+    STDOUT.reopen(cucumber_log_path)
+    STDERR.reopen(cucumber_log_path)
 
     runtime = ::Cucumber::Runtime.new
     main = ::Cucumber::Cli::Main.new(args)
@@ -37,14 +44,20 @@ def run_scenario scenario
   }
 
   Process.wait(pid)
-  puts "DONE: #{$?.success? ? 'PASS' : 'FAIL'}\n"
+  # puts "DONE: #{$?.success? ? 'PASS' : 'FAIL'}\n"
+  return $?.success?
 end
 
-puts "waiting for scenarios..."
-loop do
-  if scenario = Redis.current.lpop(:scenarios)
-    run_scenario(scenario)
-    next
-  end
-  sleep 1
-end
+DRb.start_service 'druby://localhost:51555', CUCUMBER_SERVER
+puts DRb.uri
+DRb.thread.join
+
+
+# puts "waiting for scenarios..."
+# loop do
+#   if scenario = Redis.current.lpop(:scenarios)
+#     run_scenario(scenario)
+#     next
+#   end
+#   sleep 1
+# end
